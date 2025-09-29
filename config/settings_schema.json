@@ -195,7 +195,6 @@
         "min": 4,
         "max": 40,
         "step": 4,
-        "default": 8,
         "unit": "px",
         "label": "t:settings_schema.layout.settings.spacing_grid_vertical.label"
       }
@@ -1463,6 +1462,41 @@
         "id": "cart_color_scheme",
         "label": "t:sections.all.colors.label",
         "default": "scheme-1"
+      }
+    ]
+  },
+  {
+    "name": "Thirdweb Payment Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Thirdweb Solana Payment Integration"
+      },
+      {
+        "type": "checkbox",
+        "id": "thirdweb_enabled",
+        "label": "Enable Thirdweb Solana Payments",
+        "default": false,
+        "info": "Allow customers to pay with Solana using Thirdweb"
+      },
+      {
+        "type": "text",
+        "id": "thirdweb_client_id",
+        "label": "Thirdweb Client ID",
+        "info": "Your Thirdweb client ID from the dashboard"
+      },
+      {
+        "type": "text",
+        "id": "thirdweb_merchant_wallet",
+        "label": "Merchant Wallet Address",
+        "info": "Your Solana wallet address for receiving payments"
+      },
+      {
+        "type": "text",
+        "id": "thirdweb_sol_price_api",
+        "label": "SOL Price API URL",
+        "default": "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
+        "info": "API endpoint for SOL to USD conversion"
       }
     ]
   }

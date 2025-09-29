@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "dev-tailwind": "npx tailwindcss -i ./assets/app-tailwind.css -o ./assets/app.css --watch"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,8 @@
     "tailwindcss": "^3.4.1"
   },
   "dependencies": {
-    "@trelliscommerce/prettier-config": "^1.0.0"
+    "@trelliscommerce/prettier-config": "^1.0.0",
+    "thirdweb": "^5.0.0"
   },
   "prettier": "@trelliscommerce/prettier-config",
   "lint-staged": {
