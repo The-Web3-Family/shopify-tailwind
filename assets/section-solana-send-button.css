@@ -1,0 +1,188 @@
+/* Solana Send Button Section Styles */
+.solana-send-section {
+  padding: 2rem 0;
+}
+
+.solana-send-container {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.solana-send-heading {
+  margin-bottom: 1rem;
+  color: inherit;
+}
+
+.solana-send-text {
+  margin-bottom: 2rem;
+  color: inherit;
+}
+
+.solana-send-text p {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.solana-send-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.solana-send-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.solana-send-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.solana-send-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.solana-send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.solana-icon {
+  font-size: 1.2rem;
+  display: inline-block;
+}
+
+.solana-send-disabled {
+  padding: 1rem;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.thirdweb-loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.thirdweb-success {
+  color: #28a745;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.thirdweb-error {
+  color: #dc3545;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 749px) {
+  .solana-send-section {
+    padding: 1.5rem 0;
+  }
+
+  .solana-send-container {
+    padding: 0 0.5rem;
+  }
+
+  .solana-send-btn {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+    min-width: 140px;
+  }
+
+  .solana-send-text p {
+    font-size: 1rem;
+  }
+}
+
+/* Animation for button press */
+.solana-send-btn:active:not(:disabled) {
+  animation: buttonPress 0.1s ease-in-out;
+}
+
+@keyframes buttonPress {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Focus styles for accessibility */
+.solana-send-btn:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .solana-send-btn {
+    border: 2px solid currentColor;
+  }
+
+  .thirdweb-success,
+  .thirdweb-error {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .solana-send-btn {
+    transition: none;
+  }
+
+  .solana-send-btn:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .thirdweb-loading {
+    animation: none;
+  }
+}
