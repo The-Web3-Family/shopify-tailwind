@@ -273,6 +273,23 @@
 
     {% section 'announcement-bar' %}
     {% section 'header' %}
+
+    {%- if settings.thirdweb_enabled -%}
+      <div
+        class='simple-solana-button'
+        style='text-align: center; padding: 20px; background: #f8f9fa; margin: 20px 0; border-radius: 8px;'
+      >
+        <h3 style='margin-bottom: 15px; color: #333;'>Send Solana</h3>
+        <button
+          id='solana-send-btn'
+          style='background: #14f195; color: black; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px;'
+        >
+          🪙 Send SOL
+        </button>
+        <div id='solana-status' style='margin-top: 10px; font-size: 14px; color: #666;'></div>
+      </div>
+    {%- endif -%}
+
     <main id='MainContent' class='content-for-layout focus-none' role='main' tabindex='-1'>
       {{ content_for_layout }}
     </main>
@@ -316,6 +333,109 @@
 
     {%- if settings.predictive_search_enabled -%}
       <script src='{{ 'predictive-search.js' | asset_url }}' defer='defer'></script>
+    {%- endif -%}
+
+    {%- if settings.thirdweb_enabled -%}
+      <script>
+        // Simple Solana Send Button
+        document.addEventListener('DOMContentLoaded', function () {
+          const button = document.getElementById('solana-send-btn');
+          const status = document.getElementById('solana-status');
+
+          if (!button) return;
+
+          let client = null;
+          let wallet = null;
+          let isProcessing = false;
+
+          // Initialize Thirdweb when button is clicked
+          button.addEventListener('click', async function () {
+            if (isProcessing) return;
+
+            try {
+              isProcessing = true;
+              button.disabled = true;
+              button.innerHTML = '⏳ Connecting...';
+              status.textContent = 'Initializing wallet...';
+
+              // Check if Thirdweb is available
+              if (typeof window.Thirdweb === 'undefined') {
+                throw new Error('Thirdweb not loaded');
+              }
+
+              // Initialize client
+              if (!client) {
+                client = window.Thirdweb.createThirdwebClient({
+                  clientId: '{{ settings.thirdweb_client_id }}' || 'YOUR_THIRDWEB_CLIENT_ID',
+                });
+              }
+
+              // Initialize wallet
+              if (!wallet) {
+                wallet = window.Thirdweb.createWalletAdapter({
+                  client: client,
+                  chain: window.Thirdweb.solana,
+                  wallet: 'phantom',
+                });
+              }
+
+              // Connect wallet
+              await wallet.connect();
+              status.textContent = 'Wallet connected! Sending SOL...';
+              button.innerHTML = '⏳ Sending...';
+
+              // Get merchant wallet
+              const merchantWallet = '{{ settings.thirdweb_merchant_wallet }}';
+              if (!merchantWallet) {
+                throw new Error('Merchant wallet not configured');
+              }
+
+              // Send 0.1 SOL (100,000,000 lamports)
+              const lamports = 100000000; // 0.1 SOL
+
+              const transaction = {
+                to: merchantWallet,
+                value: BigInt(lamports),
+                data: '0x',
+              };
+
+              const result = await window.Thirdweb.sendTransaction({
+                account: wallet.account,
+                transaction: transaction,
+              });
+
+              // Wait for confirmation
+              const receipt = await window.Thirdweb.waitForReceipt({
+                client: client,
+                chain: window.Thirdweb.solana,
+                transactionHash: result.transactionHash,
+              });
+
+              if (receipt.status === 'success') {
+                status.textContent = `✅ Success! Sent 0.1 SOL. TX: ${result.transactionHash}`;
+                button.innerHTML = '✅ Sent!';
+                button.style.background = '#28a745';
+              } else {
+                throw new Error('Transaction failed');
+              }
+            } catch (error) {
+              console.error('Error:', error);
+              status.textContent = `❌ Error: ${error.message}`;
+              button.innerHTML = '🪙 Send SOL';
+              button.style.background = '#dc3545';
+            } finally {
+              isProcessing = false;
+              button.disabled = false;
+
+              // Reset button after 3 seconds
+              setTimeout(() => {
+                button.innerHTML = '🪙 Send SOL';
+                button.style.background = '#14f195';
+              }, 3000);
+            }
+          });
+        });
+      </script>
     {%- endif -%}
   </body>
 </html>
